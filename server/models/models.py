@@ -4,6 +4,7 @@ from sqlalchemy.orm import relationship, sessionmaker
 
 Base = declarative_base()
 
+
 class Circuit(Base):
     __tablename__ = 'circuits'
 
@@ -17,6 +18,7 @@ class Circuit(Base):
     altitude = Column(Integer)
     url = Column(String)
 
+
 class Driver(Base):
     __tablename__ = 'drivers'
 
@@ -29,6 +31,7 @@ class Driver(Base):
     date_of_birth = Column(String)
     nationality = Column(String)
     url = Column(String)
+
 
 class Race(Base):
     __tablename__ = 'races'
@@ -53,6 +56,7 @@ class Race(Base):
     sprint_date = Column(String)
     sprint_time = Column(String)
 
+
 class DriverStanding(Base):
     __tablename__ = 'driver_standings'
 
@@ -63,6 +67,7 @@ class DriverStanding(Base):
     position = Column(Integer)
     position_text = Column(Integer)
     wins = Column(Integer)
+
 
 class LapTime(Base):
     __tablename__ = 'lap_times'
@@ -75,11 +80,14 @@ class LapTime(Base):
     time = Column(String)
     miliseconds = Column(Integer)
 
+
 def get_engine():
     return create_engine('sqlite:///f1_data.db')
+
 
 def create_tables():
     engine = get_engine()
     Base.metadata.create_all(engine)
+
 
 Session = sessionmaker(bind=get_engine())
