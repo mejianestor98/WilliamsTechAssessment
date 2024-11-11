@@ -1,0 +1,21 @@
+type race {
+    id: Int
+    year: Int
+    round: Int
+    circuit_id: Int
+    circuit: circuit
+    name: String
+    date: String
+    time: String
+    url: String
+    fp1_date: String
+    fp1_time: String
+    fp2_date: String
+    fp2_time: String
+    fp3_date: String
+    fp3_time: String
+    quali_date: String
+    quali_time: String
+    sprint_date: String
+    sprint_time: String
+}

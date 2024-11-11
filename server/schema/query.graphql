@@ -4,4 +4,6 @@ type Query {
     driver_by_id(driver_id: Int): driver
     circuits: [circuit]
     circuit_by_id(circuit_id: Int): circuit
+    races: [race]
+    race_by_id(race_id: Int): race
 }
