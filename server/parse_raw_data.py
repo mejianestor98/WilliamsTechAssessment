@@ -142,5 +142,5 @@ def parse_data(base_folder):
     session.close()
 
 
-if __name__ == '__main__':
+if __name__ == '__main__':  # TODO: use click to dynamically set the dataset folder
     parse_data('./dataset')
