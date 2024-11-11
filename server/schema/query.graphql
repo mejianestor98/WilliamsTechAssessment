@@ -1,3 +1,7 @@
 type Query {
     hello: String
+    drivers: [driver]
+    driver_by_id(driver_id: Int): driver
+    circuits: [circuit]
+    circuit_by_id(circuit_id: Int): circuit
 }

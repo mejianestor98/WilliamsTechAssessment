@@ -1,0 +1,11 @@
+type circuit {
+    id: Int
+    reference: String
+    name: String
+    location: String
+    country: String
+    latitude: Float
+    longitude: Float
+    altitude: Int
+    url: String
+}

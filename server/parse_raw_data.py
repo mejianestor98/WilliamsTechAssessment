@@ -139,6 +139,7 @@ def parse_data(base_folder):
     load_races(base_folder)
     load_lap_times(base_folder)
     load_driver_standings(base_folder)
+    session.close()
 
 
 if __name__ == '__main__':

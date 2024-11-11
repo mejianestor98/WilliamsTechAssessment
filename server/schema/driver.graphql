@@ -1,0 +1,11 @@
+type driver {
+    id: Int
+    reference: String
+    number: String
+    code: String
+    forename: String
+    surname: String
+    date_of_birth: String
+    nationality: String
+    url: String
+}
