@@ -74,7 +74,9 @@ class LapTime(Base):
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     race_id = Column(Integer, ForeignKey('races.id'))
+    race = relationship(Race)
     driver_id = Column(Integer, ForeignKey('drivers.id'))
+    driver = relationship(Driver)
     lap = Column(Integer)
     position = Column(Integer)
     time = Column(String)

@@ -1,0 +1,11 @@
+type lap_time {
+    id: Int
+    race_id: Int
+    race: race
+    driver_id: Int
+    driver: driver
+    lap: Int
+    position: Int
+    time: String
+    milliseconds: Int
+}

@@ -6,4 +6,6 @@ type Query {
     circuit_by_id(circuit_id: Int): circuit
     races: [race]
     race_by_id(race_id: Int): race
+    lap_times_for_race(race_id: Int): [lap_time]
+    lap_times_for_race_and_driver(race_id: Int, driver_id: Int): [lap_time]
 }
