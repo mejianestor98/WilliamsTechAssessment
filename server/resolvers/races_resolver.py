@@ -23,4 +23,4 @@ def lap_times_for_race_resolver(_, __, race_id):
 
 @races_query.field('lap_times_for_race_and_driver')
 def lap_times_for_race_and_driver_resolver(_, __, race_id, driver_id):
-    return None
+    return races_service.get_lap_times_for_race_and_driver(race_id, driver_id)
