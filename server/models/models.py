@@ -78,7 +78,7 @@ class LapTime(Base):
     lap = Column(Integer)
     position = Column(Integer)
     time = Column(String)
-    miliseconds = Column(Integer)
+    milliseconds = Column(Integer)
 
 
 def get_engine():
