@@ -1,0 +1,11 @@
+type driver_standing {
+    id: Int
+    race_id: Int
+    race: race
+    driver_id: Int
+    driver: driver
+    points: Int
+    position: Int
+    position_text: Int
+    wins: Int
+}
