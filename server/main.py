@@ -6,7 +6,6 @@ from ariadne.asgi import GraphQL
 from resolvers import resolvers
 
 
-# Load schema files
 type_defs = load_schema_from_path('./schema')
 
 schema = make_executable_schema(type_defs, resolvers)
