@@ -1,0 +1,6 @@
+type circuit_summary {
+    circuit_details: circuit
+    fastest_lap: Int
+    fastest_lap_text: String
+    total_races: Int
+}
