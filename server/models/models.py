@@ -85,6 +85,17 @@ class LapTime(Base):
     milliseconds = Column(Integer)
 
 
+class RaceResult(Base):
+    __tablename__ = 'race_results'
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    race_id = Column(Integer, ForeignKey('races.id'))
+    race = relationship(Race)
+    driver_id = Column(Integer, ForeignKey('drivers.id'))
+    driver = relationship(Driver)
+    finishing_position = Column(Integer)
+
+
 def get_engine():
     return create_engine('sqlite:///f1_data.db')
 

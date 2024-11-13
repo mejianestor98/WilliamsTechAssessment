@@ -1,4 +1,5 @@
 import json
+from collections import defaultdict
 from pathlib import Path
 
 from models.models import (Session,
@@ -7,6 +8,7 @@ from models.models import (Session,
                            DriverStanding,
                            LapTime,
                            Race,
+                           RaceResult,
                            create_tables)
 
 
@@ -122,6 +124,8 @@ def load_lap_times(data_folder):
     if lap_times_data is None:
         return None
 
+    races_last_laps = defaultdict(lambda: defaultdict(dict))
+
     for lap_time in lap_times_data:
         lap_time_model = LapTime(race_id=lap_time['raceId'],
                                  driver_id=lap_time['driverId'],
@@ -130,6 +134,26 @@ def load_lap_times(data_folder):
                                  time=lap_time['time'],
                                  milliseconds=lap_time['milliseconds'])
         session.add(lap_time_model)
+        race_id = lap_time['raceId']
+        driver_id = lap_time['driverId']
+        last_stored_lap = races_last_laps[race_id][driver_id]
+        if 'lap' in last_stored_lap and lap_time['lap'] < last_stored_lap['lap']:
+            continue
+        races_last_laps[race_id][driver_id] = lap_time
+    session.commit()
+    return races_last_laps
+
+
+def generate_race_results(races_last_laps):  # TODO: fix lapped cars double finishing position entry
+
+    for race_id, race_laps in races_last_laps.items():
+        for driver_id, driver_last_lap in race_laps.items():  # only last lap in this dictionary
+            race_result = RaceResult(race_id=race_id,
+                                     driver_id=driver_id,
+                                     finishing_position=driver_last_lap['position'])
+
+            session.add(race_result)
+
     session.commit()
 
 
@@ -137,7 +161,8 @@ def parse_data(base_folder):
     load_circuits(base_folder)
     load_drivers(base_folder)
     load_races(base_folder)
-    load_lap_times(base_folder)
+    races_lap_times = load_lap_times(base_folder)
+    generate_race_results(races_lap_times)
     load_driver_standings(base_folder)
     session.close()
 
