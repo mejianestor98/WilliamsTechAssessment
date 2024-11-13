@@ -10,4 +10,5 @@ type Query {
     lap_times_for_race_and_driver(race_id: Int, driver_id: Int): [lap_time]
     driver_standings(race_id: Int): [driver_standing]
     circuit_summary(circuit_id: Int): circuit_summary
+    driver_summary(driver_id: Int): driver_summary
 }

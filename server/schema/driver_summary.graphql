@@ -1,0 +1,5 @@
+type driver_summary {
+    driver_details: driver
+    career_podiums: Int
+    races_entered: Int
+}

@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from datetime import datetime, timedelta
 
-from models.models import Circuit, LapTime, Race
+from models.models import Circuit, Driver, LapTime, Race, RaceResult
 
 
 HOUR_IN_MS = 3600000
@@ -13,6 +13,13 @@ class CircuitSummary:
     fastest_lap: int
     fastest_lap_text: str
     total_races: int
+
+
+@dataclass(frozen=True)
+class DriverSummary:
+    driver_details: Driver
+    career_podiums: int
+    races_entered: int
 
 
 class SummariesService:
@@ -36,16 +43,39 @@ class SummariesService:
         return circuit_summary
 
     def get_driver_summary(self, driver_id):
-        pass
+        driver_details = self._get_driver(driver_id)
+
+        driver_race_results = self._get_race_results_for_driver(driver_id)
+        driver_podiums = self._get_number_of_podiums(driver_race_results)
+        races_entered = self._get_races_entered(driver_race_results)
+
+        driver_summary = DriverSummary(driver_details, driver_podiums, races_entered)
+        return driver_summary
 
     def _get_circuit_details(self, circuit_id):
         circuit = self._database_session.query(Circuit).get(circuit_id)
         return circuit
 
     def _get_races_for_circuit(self, circuit_id):
-        races = self._database_session.query(Race)
+        races = self._get_races()
         circuit_races = races.filter(Race.circuit_id == circuit_id)
         return list(circuit_races)
+
+    def _get_race_results_for_driver(self, driver_id):
+        race_results = self._database_session.query(RaceResult)
+        driver_race_results = race_results.filter(RaceResult.driver_id == driver_id)
+        return driver_race_results
+
+    def _get_races_entered(self, race_results):
+        return len(list(race_results))
+
+    def _get_number_of_podiums(self, race_results):
+        podium_finishes = list(race_results.filter(RaceResult.finishing_position < 4))
+        podium_finishes_number = len(podium_finishes)
+        return podium_finishes_number
+
+    def _get_races(self):
+        return self._database_session.query(Race)
 
     def _get_total_races(self, circuit_races):
         return len(circuit_races)
@@ -74,6 +104,9 @@ class SummariesService:
 
         race_fastest_lap = min(race_laps, key=lambda lap: lap.milliseconds)
         return race_fastest_lap.milliseconds
+
+    def _get_driver(self, driver_id):
+        return self._database_session.query(Driver).get(driver_id)
 
     def _milliseconds_to_text(self, laptime_milliseconds):
         timedelta_object = timedelta(milliseconds=laptime_milliseconds)
