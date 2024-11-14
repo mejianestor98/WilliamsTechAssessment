@@ -1,6 +1,7 @@
 import uvicorn
 from ariadne import make_executable_schema, load_schema_from_path
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from ariadne.asgi import GraphQL
 
 from resolvers import resolvers
@@ -12,6 +13,13 @@ schema = make_executable_schema(type_defs, resolvers)
 graphql_app = GraphQL(schema)
 
 app = FastAPI()
+
+app.add_middleware(CORSMiddleware,
+                   allow_origins=['*'],
+                   allow_credentials=True,
+                   allow_methods=["*"],
+                   allow_headers=["*"])
+
 app.mount('/graphql', graphql_app)
 
 
