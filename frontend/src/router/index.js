@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router';
 import StandingsView from '@/views/StandingsView.vue';
 import RaceResultsView from '@/views/RaceResultsView.vue';
 
@@ -16,6 +16,6 @@ const router = createRouter({
       component: RaceResultsView
     },
   ],
-})
+});
 
-export default router
+export default router;

@@ -1,8 +1,12 @@
 <script setup>
+import DriverStandings from '@/components/DriverStandings.vue';
 </script>
 
 <template>
     <main>
-        <p>standings</p>
+        <DriverStandings/>
     </main>
 </template>
+
+<style scoped>
+</style>
