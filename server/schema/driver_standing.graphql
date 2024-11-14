@@ -4,7 +4,7 @@ type driver_standing {
     race: race
     driver_id: Int
     driver: driver
-    points: Int
+    points: Float
     position: Int
     position_text: Int
     wins: Int

@@ -65,7 +65,7 @@ class DriverStanding(Base):
     race = relationship('Race')
     driver_id = Column(Integer, ForeignKey('drivers.id'))
     driver = relationship('Driver')
-    points = Column(Integer)
+    points = Column(Float)
     position = Column(Integer)
     position_text = Column(Integer)
     wins = Column(Integer)
