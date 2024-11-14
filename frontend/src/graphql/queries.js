@@ -25,3 +25,12 @@ query GetDriverStandings($raceId: Int){
         position
     }
 }`;
+
+export const DRIVER_SUMMARY_QUERY = gql`
+query GetDriverSummary($driverId: Int){
+    driver_summary(driver_id: $driverId){
+        career_podiums
+        races_entered
+    }
+}
+`;

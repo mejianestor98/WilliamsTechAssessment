@@ -2,7 +2,7 @@
 import gql from 'graphql-tag'
 import { computed, ref, watch } from 'vue';
 import { useQuery, useLazyQuery } from '@vue/apollo-composable';
-import { RACES_QUERY, DRIVER_STANDINGS_QUERY } from '@/graphql/standings.js';
+import { RACES_QUERY, DRIVER_STANDINGS_QUERY, DRIVER_SUMMARY_QUERY } from '@/graphql/queries.js';
 
 const { result, loading, error } = useQuery(RACES_QUERY);
 
@@ -20,7 +20,6 @@ const driverStandings = computed(() => {
 });
 
 watch(selectedRaceId, (newVal, oldVal) => {
-    console.log(`Selected race ID changed from ${oldVal} to ${newVal}`);
     if (newVal) {
         clickedDriver.value = null;
         fetchDriverStandings.value = true;
@@ -28,11 +27,19 @@ watch(selectedRaceId, (newVal, oldVal) => {
     }
 });
 
-const clickedDriver = ref(null)
+const clickedDriver = ref(null);
+const fetchDriverSummary = ref(false);
 const handleDriverClick = (driver) => {
-    console.log(driver)
-    clickedDriver.value = driver
+    clickedDriver.value = driver;
+    fetchDriverSummary.value = true;
+    loadDriverSummary( {driverId : driver.id});
 };
+
+const { result: driverSummaryResult, refetch: loadDriverSummary } = useQuery(DRIVER_SUMMARY_QUERY,
+                                                                             { driverId: clickedDriver.value ? clickedDriver.value.id : null },
+                                                                             { enabled: fetchDriverSummary });
+
+const driverSummary = computed(() => driverSummaryResult.value?.driver_summary ?? null);
 
 </script>
 
@@ -69,10 +76,11 @@ const handleDriverClick = (driver) => {
                 </table>
             </div>
             <div class="col-6" v-if="clickedDriver">
-                <h1>{{ clickedDriver.surname }}</h1>
-                <h3>{{ clickedDriver.forename }}</h3>
+                <h1>{{ clickedDriver.forename }} {{ clickedDriver.surname }}</h1>
                 <h2>{{ clickedDriver.code }}</h2>
-                <p> {{ clickedDriver.date_of_birth }} - {{ clickedDriver.nationality }}</p>
+                <h5> {{ clickedDriver.date_of_birth }} - {{ clickedDriver.nationality }}</h5>
+                <p>Races entered: {{ driverSummary?.races_entered }}</p>
+                <p>Career podiums: {{ driverSummary?.career_podiums }}</p>
                 <a :href="clickedDriver.url" target="_blank">Wikipedia page</a>
             </div>
         </div>
